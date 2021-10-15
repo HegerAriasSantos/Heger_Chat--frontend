@@ -1,0 +1,68 @@
+@import "./Global.scss";
+
+#login {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba($color: rgb(245, 245, 245), $alpha: 0.9);
+	.card {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		background-color: white;
+		box-shadow: 0 2px 8px 0 rgb(38 38 55 / 25%);
+		padding: 16px;
+		border-radius: 15px;
+		width: 500px;
+		@include responsive(phone) {
+			width: 300px;
+		}
+		h2 {
+			font-size: 32px;
+			@include responsive(phone) {
+				font-size: 28px;
+			}
+		}
+		form {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			width: 100%;
+			gap: 15px;
+			button {
+				background-color: #0f52ba;
+				color: white;
+				border: none;
+				font-size: 16px;
+				padding: 10px calc(50% - 30px);
+				border-radius: 4px;
+				cursor: pointer;
+				text-transform: capitalize;
+				transition: 0.3s;
+				&:hover {
+					background-color: #1962cf;
+				}
+			}
+		}
+	}
+	.dont {
+		margin: 20px 0 0 0;
+		text-transform: capitalize;
+		@include responsive(phone) {
+			font-size: 0.9rem;
+		}
+		a {
+			color: black;
+			font-weight: bold;
+			text-decoration: none;
+
+			@include responsive(phone) {
+				font-size: 0.9rem;
+			}
+		}
+	}
+}

@@ -13,6 +13,7 @@ const App = () => {
 			<Suspense fallback={<Loading />}>
 				<Switch>
 					<Route component={Home} exact path='/' />
+					<Route component={Loading} exact path='/loading' />
 					<Route component={Login} exact path='/login' />
 					<Route component={Register} exact path='/register' />
 					<Route component={Chat} exact path='/chat/:id' />

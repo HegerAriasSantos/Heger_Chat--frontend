@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import Input from "./../../components/input";
 import SetUser from "../../utils/User";
+import "../../scss/Login.scss";
+import { Link } from "react-router-dom";
 
 function Login() {
 	let History = useHistory();
@@ -29,29 +32,33 @@ function Login() {
 			});
 	};
 	return (
-		<div>
-			<h1>login</h1>
-			<form onSubmit={handlesubmit}>
-				<div className='name'>
-					<label htmlFor='#name'>Nombre</label>
-					<input
+		<div id='login'>
+			<div className='card'>
+				<h2>
+					<span>Hello</span>, <br />
+					Welcome Back
+				</h2>
+				<form onSubmit={handlesubmit}>
+					<Input
 						value={user.name}
 						type='text'
 						name='name'
+						placeholder='Username'
 						onChange={handleChange}
 					/>
-				</div>
-				<div className='password'>
-					<label htmlFor='#password'>Password</label>
-					<input
+					<Input
 						value={user.password}
-						type='text'
+						type='password'
 						name='password'
+						placeholder='Password'
 						onChange={handleChange}
 					/>
+					<button>enviar</button>
+				</form>
+				<div className='dont'>
+					Don't have an account? <Link to='register'> Click Here</Link>
 				</div>
-				<button>enviar</button>
-			</form>
+			</div>
 		</div>
 	);
 }

@@ -1,0 +1,20 @@
+.input {
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	label {
+		text-transform: capitalize;
+		font-size: 16px;
+	}
+	.Input {
+		display: block;
+		border: none;
+		border-bottom: 2px solid rgba($color: #000000, $alpha: 0.1);
+		padding: 10px 5px;
+		height: 20px;
+		width: 100%;
+		font-size: 16px;
+		outline: none;
+	}
+}

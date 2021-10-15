@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { GetUser } from "../../utils/User";
 import { useHistory } from "react-router";
-import "../../assets/scss/Home.scss";
+import "../../scss/Home.scss";
 
 function App() {
 	let history = useHistory();
