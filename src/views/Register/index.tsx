@@ -26,7 +26,7 @@ function Register() {
 			.post(`${process.env.REACT_APP_END_POINT}/user/register`, user)
 			.then(response => {
 				SetUser(response.data.body);
-				history.push("/chat/1");
+				history.push("/chat/6162206c1a095e06dce1b1b7");
 			})
 			.catch(err => {
 				alert("Already exist");

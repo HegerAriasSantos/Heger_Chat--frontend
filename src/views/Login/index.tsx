@@ -25,7 +25,7 @@ function Login() {
 			.post(`${process.env.REACT_APP_END_POINT}/user/login`, user)
 			.then(response => {
 				SetUser(response.data.body);
-				History.push("/chat/1");
+				History.push("/chat/6162206c1a095e06dce1b1b7");
 			})
 			.catch(error => {
 				alert("Username or Password incorrect");
