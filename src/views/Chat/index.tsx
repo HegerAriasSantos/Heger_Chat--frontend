@@ -12,6 +12,7 @@ import "../../scss/Chat.scss";
 function Chat() {
 	let history = useHistory();
 	let user = GetUser();
+
 	const [responsive, setResponsive] = useState(false);
 
 	const handleClick = () => {
@@ -37,11 +38,8 @@ function Chat() {
 				<ListOfChats handleClick={handleClickChats} />
 			</div>
 			<div className='right'>
-				<ChatHeader handleClick={handleClick} Name={"general"}></ChatHeader>
-				<ListOfMessages
-					name={user.name}
-					chatId={useParams()}
-					userId={user._id}></ListOfMessages>
+				<ChatHeader handleClick={handleClick}></ChatHeader>
+				<ListOfMessages chatId={useParams()} user={user}></ListOfMessages>
 			</div>
 		</div>
 	);

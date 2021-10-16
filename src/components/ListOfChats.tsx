@@ -35,6 +35,7 @@ function ListOfChats(props: any) {
 				{chats.map((elem: any) => {
 					return (
 						<li
+							key={elem._id}
 							onClick={() => {
 								props.handleClick();
 								history.push(`${elem._id}`);

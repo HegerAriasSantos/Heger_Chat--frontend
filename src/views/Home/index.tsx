@@ -8,7 +8,7 @@ function App() {
 	let history = useHistory();
 	useEffect(() => {
 		if (GetUser()) {
-			history.push("/chat/1");
+			history.push("/chat/6162206c1a095e06dce1b1b7");
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

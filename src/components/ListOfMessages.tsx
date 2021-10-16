@@ -4,37 +4,44 @@ import io from "../utils/socket.io";
 import ArrowSend from "../assets/icons/ArrowSend";
 import Attachement from "../assets/icons/Attachement";
 import { useEffect, useState } from "react";
-import { GetUser } from "./../utils/User";
 import { useParams } from "react-router";
 
 function ListOfMessages(props: any) {
 	const [response, setResponse] = useState([{}]);
 	const [message, setMessage] = useState("");
+	const [change, setChange] = useState(false);
 	const [file, setFile] = useState();
 	let param: any = useParams();
 	let data = Axios.Get(
 		`${process.env.REACT_APP_END_POINT}/message?chatId=${param.id}`,
 	);
-	io.on("sentMessage", (r: any) => {
-		setResponse([...response, r]);
-	});
+
+	useEffect(() => {
+		io.once("sentMessage", (r: any) => {
+			setResponse([...response, r]);
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [response]);
 	useEffect(() => {
 		io.emit("joinRoom", {
-			name: GetUser().name,
+			name: props.user.name,
 			room: param.id,
 		});
+		setResponse([{}]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [param.id]);
 	const handlesubmit = () => {
+		setChange(!change);
 		if (message === "") {
 			alert("You can't sent a empty message");
 		}
 		const packageMessage = {
 			chatId: param.id,
-			userId: GetUser()._id,
+			userId: props.user._id,
 			message: message,
-			name: props.name,
+			name: props.user.name,
 			file: file,
-			token: GetUser().token,
+			token: props.user.token,
 		};
 		axios
 			.post(`${process.env.REACT_APP_END_POINT}/message`, packageMessage)
@@ -49,16 +56,15 @@ function ListOfMessages(props: any) {
 			setFile(e.target.result);
 		};
 	};
-
 	return (
 		<div>
 			<div className='Chat__conversation'>
-				<ul>
+				<ul id='scroll'>
 					{data.map((message: any) => {
 						return (
 							<li
 								className={
-									message.name === props.name
+									message.name === props.user.name
 										? "message-cover_me"
 										: "message-cover"
 								}
@@ -69,6 +75,7 @@ function ListOfMessages(props: any) {
 							</li>
 						);
 					})}
+
 					{response.map((message: any, i: number) => {
 						if (!message.message) {
 							return <span key={i}></span>;
@@ -76,11 +83,12 @@ function ListOfMessages(props: any) {
 						return (
 							<li
 								className={
-									message.name === props.name
+									message.name === props.user.name
 										? "message-cover_me"
 										: "message-cover"
 								}
-								key={message._id || i}>
+								key={message._id || i}
+								id={message._id || i}>
 								<div className='message_user'>{message.name}</div>
 								{message.message}
 							</li>
