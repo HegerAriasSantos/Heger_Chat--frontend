@@ -1,33 +1,71 @@
 import turnOff from "../assets/icons/turnOff.svg";
 import Plus from "../assets/icons/Plus.svg";
 import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { signOut } from "./../utils/User";
 import { useHistory } from "react-router";
 import { useEffect, useState } from "react";
 
 function ListOfChats(props: any) {
 	const [chats, setChats] = useState([]);
+	const history = useHistory();
+	const MySwal = withReactContent(Swal);
 	useEffect(() => {
 		axios.get(`${process.env.REACT_APP_END_POINT}/chat/`).then(data => {
 			setChats(data.data.body);
 		});
-	}, []);
+	}, [chats]);
 
-	let history = useHistory();
+	const handleSignOut = () => {
+		MySwal.fire({
+			title: "Are you sure?",
+			text: "We'll miss you!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Agree",
+		}).then(result => {
+			if (result.isConfirmed) {
+				signOut();
+				history.push("/");
+			}
+		});
+	};
+	const handleCreateChat = () => {
+		Swal.fire({
+			title: "Create chat",
+			input: "text",
+			inputAttributes: {
+				autocapitalize: "off",
+			},
+			inputPlaceholder: "Chat's name",
+			showCancelButton: true,
+			confirmButtonText: "Create",
+			showLoaderOnConfirm: true,
+			preConfirm: nombre => nombre,
+			allowOutsideClick: () => !Swal.isLoading(),
+			backdrop: true,
+		}).then(result => {
+			if (result.isConfirmed) {
+				let chat = {
+					name: result.value,
+				};
+				axios.post(`${process.env.REACT_APP_END_POINT}/chat/`, chat);
+				Swal.fire("Saved!", "", "success");
+			}
+		});
+	};
 
 	return (
 		<div className='chatList'>
 			<div className='titulo'>
-				<div
-					onClick={() => {
-						signOut();
-						history.push("/");
-					}}
-					className='Chat__header--menu'>
+				<div onClick={handleSignOut} className='Chat__header--menu'>
 					<img src={turnOff} alt='signOut' className='img'></img>
 				</div>
-				<h2>Lista de chats</h2>
-				<div className='plus'>
+				<h2>Chats</h2>
+				<div onClick={handleCreateChat} className='plus'>
 					<img src={Plus} alt='buttom for create a chat ' />
 				</div>
 			</div>

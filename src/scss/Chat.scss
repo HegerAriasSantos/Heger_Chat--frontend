@@ -50,7 +50,6 @@
 			color: #fff;
 			width: 100%;
 			div {
-				display: none;
 				@include responsive(tablet) {
 					display: block;
 				}
@@ -173,10 +172,17 @@
 				margin: 3px 0;
 				background: #212121;
 				color: rgb(218, 213, 213);
-				max-width: fit-content;
+				width: fit-content;
 				padding: 8px;
 				border-radius: 20px 20px 20px 0;
 				position: relative;
+				max-width: 80%;
+				p {
+					padding: 0;
+					margin: 0;
+					width: 100%;
+					word-wrap: break-word;
+				}
 			}
 			.message-cover {
 				&::before {

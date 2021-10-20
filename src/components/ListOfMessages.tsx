@@ -1,37 +1,51 @@
-import * as Axios from "./../hooks/axios";
 import axios from "axios";
 import io from "../utils/socket.io";
 import ArrowSend from "../assets/icons/ArrowSend";
 import Attachement from "../assets/icons/Attachement";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useRef, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { signOut } from "../utils/User";
 
 function ListOfMessages(props: any) {
 	const [response, setResponse] = useState([{}]);
 	const [message, setMessage] = useState("");
-	const [change, setChange] = useState(false);
 	const [file, setFile] = useState();
-	let param: any = useParams();
-	let data = Axios.Get(
-		`${process.env.REACT_APP_END_POINT}/message?chatId=${param.id}`,
-	);
+	const [data, setData] = useState([]);
+	const messageListContainer = useRef<HTMLDivElement>(null);
+	const param: any = useParams();
+	const history = useHistory();
+	useEffect(() => {
+		axios
+			.get(`${process.env.REACT_APP_END_POINT}/message?chatId=${param.id}`)
+			.then(response => {
+				setData(response.data.body);
+			})
+			.catch(() => {
+				alert("Internal error please refresh the page");
+			});
 
-	useEffect(() => {
-		io.once("sentMessage", (r: any) => {
-			setResponse([...response, r]);
-		});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [response]);
-	useEffect(() => {
 		io.emit("joinRoom", {
 			name: props.user.name,
 			room: param.id,
 		});
 		setResponse([{}]);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [param.id]);
+		axios
+			.post(`${process.env.REACT_APP_END_POINT}/user/auth`, props.user)
+			.catch((err: any) => {
+				signOut();
+				history.push("/");
+			});
+	}, [history, param.id, props.user]);
+	useEffect(() => {
+		io.once("sentMessage", (r: any) => {
+			setResponse([...response, r]);
+		});
+		messageListContainer.current?.scrollTo({
+			top: messageListContainer.current?.scrollHeight,
+			behavior: "smooth",
+		});
+	}, [response, data]);
 	const handlesubmit = () => {
-		setChange(!change);
 		if (message === "") {
 			alert("You can't sent a empty message");
 		}
@@ -47,6 +61,13 @@ function ListOfMessages(props: any) {
 			.post(`${process.env.REACT_APP_END_POINT}/message`, packageMessage)
 			.then(() => {
 				setMessage("");
+				messageListContainer.current?.scrollTo({
+					top: messageListContainer.current?.scrollHeight,
+					behavior: "smooth",
+				});
+			})
+			.catch((err: any) => {
+				alert("Just happened a error, please try again ");
 			});
 	};
 	const onchange = (e: any) => {
@@ -58,7 +79,7 @@ function ListOfMessages(props: any) {
 	};
 	return (
 		<div>
-			<div className='Chat__conversation'>
+			<div ref={messageListContainer} className='Chat__conversation'>
 				<ul id='scroll'>
 					{data.map((message: any) => {
 						return (
@@ -71,7 +92,7 @@ function ListOfMessages(props: any) {
 								key={message._id}
 								id={message._id}>
 								<div className='message_user'>{message.name}</div>
-								{message.message}
+								<p>{message.message}</p>
 							</li>
 						);
 					})}
@@ -90,7 +111,7 @@ function ListOfMessages(props: any) {
 								key={message._id || i}
 								id={message._id || i}>
 								<div className='message_user'>{message.name}</div>
-								{message.message}
+								<p>{message.message}</p>
 							</li>
 						);
 					})}
