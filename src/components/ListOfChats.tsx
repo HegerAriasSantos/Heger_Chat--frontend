@@ -47,13 +47,24 @@ function ListOfChats(props: any) {
 			preConfirm: nombre => nombre,
 			allowOutsideClick: () => !Swal.isLoading(),
 			backdrop: true,
+			returnInputValueOnDeny: true,
 		}).then(result => {
 			if (result.isConfirmed) {
 				let chat = {
 					name: result.value,
 				};
-				axios.post(`${process.env.REACT_APP_END_POINT}/chat/`, chat);
-				Swal.fire("Saved!", "", "success");
+				axios
+					.post(`${process.env.REACT_APP_END_POINT}/chat/`, chat)
+					.then(() => {
+						Swal.fire("Saved!", "", "success");
+					})
+					.catch(err => {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "The chat need a name",
+						});
+					});
 			}
 		});
 	};
