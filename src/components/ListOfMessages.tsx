@@ -9,8 +9,8 @@ import { signOut } from "../utils/User";
 function ListOfMessages(props: any) {
 	const [response, setResponse] = useState([{}]);
 	const [message, setMessage] = useState("");
-	const [file, setFile] = useState();
 	const [data, setData] = useState([]);
+	const [file, setFile] = useState<FormDataEntryValue | null>();
 	const messageListContainer = useRef<HTMLDivElement>(null);
 	const param: any = useParams();
 	const history = useHistory();
@@ -36,6 +36,7 @@ function ListOfMessages(props: any) {
 				history.push("/");
 			});
 	}, [history, param.id, props.user]);
+
 	useEffect(() => {
 		io.once("sentMessage", (r: any) => {
 			setResponse([...response, r]);
@@ -44,7 +45,8 @@ function ListOfMessages(props: any) {
 			top: messageListContainer.current?.scrollHeight,
 			behavior: "smooth",
 		});
-	}, [response, data]);
+	}, [response]);
+
 	const handlesubmit = () => {
 		if (message === "") {
 			alert("You can't sent a empty message");
@@ -53,29 +55,37 @@ function ListOfMessages(props: any) {
 			chatId: param.id,
 			userId: props.user._id,
 			message: message,
-			name: props.user.name,
 			file: file,
+			name: props.user.name,
 			token: props.user.token,
-		};
+		}; // https://firebasestorage.googleapis.com/v0/b/heger-chat.appspot.com/o/cedula.docx?alt=media&token=82061067-c2ea-46d7-88a1-cdbfe539d07f
+
+		// https://firebasestorage.googleapis.com/v0/b/heger-chat.appspot.com/o/246478701_231385258984786_3869153617563718039_n.jpg?alt=media&token=6a497e61-92eb-4d6a-a503-b93270c5f969
+		// axios
+		// 	.post(`${process.env.REACT_APP_END_POINT}/message`, packageMessage)
+		// 	.then(() => {
+		// 		setMessage("");
+		// 		messageListContainer.current?.scrollTo({
+		// 			top: messageListContainer.current?.scrollHeight,
+		// 			behavior: "smooth",
+		// 		});
+		// 	})
+		// 	.catch((err: any) => {
+		// 		alert("Just happened a error, please try again ");
+		// 	});
 		axios
-			.post(`${process.env.REACT_APP_END_POINT}/message`, packageMessage)
+			.post("gs://heger-chat.appspot.com", packageMessage.file)
 			.then(() => {
-				setMessage("");
-				messageListContainer.current?.scrollTo({
-					top: messageListContainer.current?.scrollHeight,
-					behavior: "smooth",
-				});
+				alert("funciono");
 			})
-			.catch((err: any) => {
+			.catch(() => {
 				alert("Just happened a error, please try again ");
 			});
 	};
 	const onchange = (e: any) => {
-		const Reader = new FileReader();
-		Reader.readAsDataURL(e.target.files[0]);
-		Reader.onload = (e: any) => {
-			setFile(e.target.result);
-		};
+		const formData = new FormData();
+		formData.append("myFile", e.target.files[0]);
+		setFile(formData.get("myFile"));
 	};
 	return (
 		<div>
