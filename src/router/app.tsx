@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Loading from "../views/Loading";
 const Home = lazy(() => import("../views/Home"));
 const Register = lazy(() => import("../views/Register"));
@@ -8,6 +8,9 @@ const Chat = lazy(() => import("../views/Chat"));
 const Login = lazy(() => import("../views/Login"));
 
 const App = () => {
+	useEffect(() => {
+		window.scrollTo(0, 1);
+	}, []);
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<Loading />}>
