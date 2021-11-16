@@ -11,7 +11,7 @@ function Chat() {
 	const user = GetUser();
 	const [responsive, setResponsive] = useState(false);
 	const [galeryOpen, setGaleryOpen] = useState(false);
-	const [openImage, setOpenImage] = useState(false);
+	// const [openImage, setOpenImage] = useState(false);
 	const handleClick = () => {
 		setResponsive(!responsive);
 	};
