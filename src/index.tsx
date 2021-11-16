@@ -8,21 +8,17 @@ import registerServiceWorker from "./serviceWorker";
 import "./scss/index.scss";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyCLtNDpvDvUrFo95Sjd62nQVivP1g7diiM",
-	authDomain: "heger-chat.firebaseapp.com",
-	projectId: "heger-chat",
-	storageBucket: "heger-chat.appspot.com",
-	messagingSenderId: "453785698077",
-	appId: "1:453785698077:web:0ca2827adad68c8095ebf4",
-	measurementId: "G-MXX7FMWMYT",
+	apiKey: "AIzaSyA7FTym1bV1HNwzwj-QIql1JpLsEhIbwwU",
+	authDomain: "heger-chat-13f28.firebaseapp.com",
+	projectId: "heger-chat-13f28",
+	storageBucket: "heger-chat-13f28.appspot.com",
+	messagingSenderId: "55319696157",
+	appId: "1:55319696157:web:d0da01ad9381c23c6bc7f4",
 };
 
 const app = initializeApp(firebaseConfig);
 
-const storage = getStorage(
-	app,
-	"https://console.firebase.google.com/project/heger-chat/storage/heger-chat.appspot.com/files",
-);
+export const storage = getStorage(app, "gs://heger-chat-13f28.appspot.com/");
 
 registerServiceWorker();
 ReactDOM.render(

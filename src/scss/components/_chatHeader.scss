@@ -1,0 +1,53 @@
+.Chat__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #212121;
+	height: 8vh;
+	.title {
+		@include responsive(tablet) {
+			.back {
+				display: block;
+				margin-left: 10px;
+				svg {
+					width: 30px;
+					height: 30px;
+					fill: rgb(209, 206, 206);
+				}
+			}
+		}
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		&_text {
+			color: #ffffff;
+			font-size: 18px;
+		}
+		&_img {
+			display: block;
+			height: 52px;
+			width: 52px;
+			overflow: hidden;
+			border-radius: 50%;
+			margin: 5px;
+			object-fit: cover;
+			object-position: center;
+		}
+	}
+	&--menu {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		svg {
+			width: 42px;
+			height: 42px;
+			padding: 8px;
+			margin: 0 5px;
+			&:hover {
+				background-color: rgba($color: #ffffff, $alpha: 0.3);
+				border-radius: 50%;
+				padding: 8px;
+			}
+		}
+	}
+}

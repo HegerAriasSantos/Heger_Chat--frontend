@@ -44,9 +44,6 @@ function ListOfChats(props: any) {
 			showCancelButton: true,
 			confirmButtonText: "Create",
 			showLoaderOnConfirm: true,
-			// preConfirm: nombre => {
-			// 	console.log(nombre);
-			// },
 
 			allowOutsideClick: () => !Swal.isLoading(),
 			backdrop: true,

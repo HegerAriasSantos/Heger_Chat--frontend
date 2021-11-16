@@ -15,6 +15,7 @@ export const ChatHeader = (props: any) => {
 				setChatName(chats.filter((elem: any) => elem._id === param.id)[0].name);
 			});
 	}, [param]);
+
 	return (
 		<div className='Chat__header'>
 			<div className='title'>
@@ -24,7 +25,11 @@ export const ChatHeader = (props: any) => {
 				<img className='title_img' src={img} alt="Group's img" />
 				<div className='title_text'>{chatName}</div>
 			</div>
-			<div className='Chat__header--menu'>
+			<div
+				onClick={() => {
+					props.setGaleryOpen(!props.galeryOpen);
+				}}
+				className='Chat__header--menu'>
 				<Menu className='img'></Menu>
 			</div>
 		</div>
