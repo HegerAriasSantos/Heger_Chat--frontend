@@ -1,41 +1,54 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import axios from "axios";
-import { useParams } from "react-router";
-import { useEffect, useState } from "react";
-import ImageGallery from "react-image-gallery";
-function Galery(this: any, props: any) {
-	const [images, setImages] = useState<any>([]);
-	const param: any = useParams();
-	useEffect(() => {
-		axios
-			.get(
-				`${process.env.REACT_APP_END_POINT}/message?chatId=${param.id}&fileType=images`,
-			)
-			.then(r => {
-				let arr: { original: String; lazyLoad: boolean }[] = [];
-				r.data.body.forEach((element: any) => {
-					arr.push({ original: element.file, lazyLoad: true });
-				});
-				setImages(arr);
-				console.log(arr);
-			});
-	}, [param.id]);
+
+import { SRLWrapper } from "simple-react-lightbox";
+function Galery(props: any) {
+	const options = {
+		settings: {
+			autoplaySpeed: 1500,
+			transitionSpeed: 900,
+			hideControlsAfter: true,
+		},
+		buttons: {
+			backgroundColor: "rgba(30,30,36,0.8)",
+			iconColor: "rgba(255, 255, 255, 0.8)",
+			iconPadding: "10px",
+			showAutoplayButton: false,
+			showCloseButton: true,
+			showDownloadButton: false,
+			showFullscreenButton: true,
+			showNextButton: true,
+			showPrevButton: true,
+			showThumbnailsButton: false,
+			size: "40px",
+		},
+		thumbnails: {
+			showThumbnails: true,
+			thumbnailsAlignment: "space-between",
+			thumbnailsContainerBackgroundColor: "transparent",
+			thumbnailsContainerPadding: "0",
+			thumbnailsGap: "0 5px",
+			thumbnailsIconColor: "#ffffff",
+			thumbnailsOpacity: 0.4,
+			thumbnailsPosition: "bottom",
+			thumbnailsSize: ["100px", "80px"],
+		},
+	};
 
 	return (
 		<div id={props.open ? "Galery_open" : "Galery"}>
 			<div className='images'>
-				{images.map((e: { original: string }) => {
-					return <img loading='lazy' src={e.original} alt='Galery img' />;
-				})}
+				<SRLWrapper options={options}>
+					{props.images.map((e: any) => {
+						return (
+							<a href={e.src}>
+								<img src={e.src} />
+							</a>
+						);
+					})}
+				</SRLWrapper>
 			</div>
-			<ImageGallery items={images}></ImageGallery>
-			{/* _renderCustomControls */}
-			{/* <a
-				href=''
-				className='image-gallery-custom-action'
-				onClick={this._customAction.bind(this)}
-			/> */}
 		</div>
 	);
 }

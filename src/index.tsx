@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import App from "./router/app";
 import registerServiceWorker from "./serviceWorker";
 import "./scss/index.scss";
+import SimpleReactLightbox from "simple-react-lightbox";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyA7FTym1bV1HNwzwj-QIql1JpLsEhIbwwU",
@@ -23,7 +24,9 @@ export const storage = getStorage(app, "gs://heger-chat-13f28.appspot.com/");
 registerServiceWorker();
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<SimpleReactLightbox>
+			<App />
+		</SimpleReactLightbox>
 	</React.StrictMode>,
 	document.getElementById("root"),
 );

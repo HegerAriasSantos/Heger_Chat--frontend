@@ -3,7 +3,12 @@
 @import "./components/chatList";
 @import "./components/chatMessages";
 @import "./components/chatGalery";
-@import "~react-image-gallery/styles/scss/image-gallery.scss";
+.SRLElementWrapper {
+	height: calc((var(--vh, 1vh) * 100) - 100px) !important;
+}
+.SRLCaptionContainer {
+	display: none !important;
+}
 .Chat {
 	position: relative;
 	display: grid;

@@ -7,6 +7,7 @@ import { useHistory, useParams } from "react-router";
 import { signOut } from "../utils/User";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./../index";
+import { useLightbox } from "simple-react-lightbox";
 
 function ListOfMessages(props: any) {
 	const [response, setResponse] = useState([{}]);
@@ -16,6 +17,7 @@ function ListOfMessages(props: any) {
 	const messageListContainer = useRef<HTMLDivElement>(null);
 	const param: any = useParams();
 	const history = useHistory();
+	const { openLightbox } = useLightbox();
 
 	useEffect(() => {
 		axios
@@ -147,13 +149,17 @@ function ListOfMessages(props: any) {
 
 		setFiles(arr);
 	};
+	const openGalery = (e: any) => {
+		let j = 0;
+		while (true) {
+			if (e.currentTarget.src === props.images[j].src) {
+				break;
+			}
+			j++;
+		}
+		openLightbox(j);
+	};
 
-	setTimeout(() => {
-		messageListContainer.current?.scrollTo({
-			top: messageListContainer.current?.scrollHeight + 10000000,
-			behavior: "smooth",
-		});
-	}, 2000);
 	return (
 		<div>
 			<div ref={messageListContainer} className='Chat__conversation'>
@@ -173,6 +179,7 @@ function ListOfMessages(props: any) {
 								{message.fileType && (
 									<div>
 										<img
+											onClick={e => openGalery(e)}
 											loading='lazy'
 											src={message.file}
 											alt={`img sent by ${message.name}`}
@@ -201,6 +208,7 @@ function ListOfMessages(props: any) {
 								{message.file && (
 									<div>
 										<img
+											onClick={e => openGalery(e)}
 											loading='lazy'
 											src={message.file}
 											alt={`img sent by ${message.name}`}
