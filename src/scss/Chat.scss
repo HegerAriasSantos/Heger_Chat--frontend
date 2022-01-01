@@ -73,5 +73,12 @@
 	}
 }
 .galeryOpen {
+	.item {
+		display: flex;
+	}
 	grid-template-columns: 60% 40% !important;
+	@include responsive(tablet) {
+		grid-template-columns: -1% 100% !important;
+		// display: flex;
+	}
 }

@@ -28,7 +28,6 @@ function Chat() {
 					});
 				});
 				setImages(arr);
-				console.log(arr);
 			});
 	}, [param.id]);
 
@@ -52,6 +51,7 @@ function Chat() {
 						handleClick={handleClick}></ChatHeader>
 					<ListOfMessages
 						images={images}
+						setImages={setImages}
 						chatId={useParams()}
 						user={user}></ListOfMessages>
 				</div>

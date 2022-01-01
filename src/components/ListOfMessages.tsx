@@ -55,13 +55,17 @@ function ListOfMessages(props: any) {
 			if (r.message.includes(props.user.name)) {
 				return;
 			}
+			if (r.file) {
+				props.setImages([...props.images, { src: r.file }]);
+				console.log(props.images);
+			}
 			setResponse([...response, r]);
 		});
 		messageListContainer.current?.scrollTo({
 			top: messageListContainer.current?.scrollHeight + 10000000,
 			behavior: "smooth",
 		});
-	}, [response, data, props.user.name]);
+	}, [response, data, props.user.name, props]);
 
 	const handlesubmit = async () => {
 		if (files) {

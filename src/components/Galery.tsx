@@ -42,7 +42,7 @@ function Galery(props: any) {
 				<SRLWrapper options={options}>
 					{props.images.map((e: any) => {
 						return (
-							<a href={e.src}>
+							<a key={e.src} href={e.src}>
 								<img src={e.src} />
 							</a>
 						);

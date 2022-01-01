@@ -1,4 +1,7 @@
 .Chat__conversation {
+	img {
+		cursor: pointer;
+	}
 	::-webkit-scrollbar {
 		display: none !important;
 	}
